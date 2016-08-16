@@ -289,7 +289,7 @@ public class UserInterface extends JFrame implements ChartMouseListener{
 		dialogBoxForAddingInnerMaskSegment = new DialogBoxForAddingInnerMaskSegment(this, "Add a New Inner Mask Segment", true, mask);
 		dialogBoxForEditingInnerMaskSegment = new DialogBoxForEditingInnerMaskSegment(this, "Edit a Inner Mask Segment", true, mask);
 		
-		createTemporaryMasks();
+		createTemporaryMaskSegments();
 		
 		seriler = new XYSeries("Pattern", false, false);
 		maskOuter = new XYSeries("Outer Mask", false, false);
@@ -2672,7 +2672,7 @@ public class UserInterface extends JFrame implements ChartMouseListener{
 		exportConvergeCurve.setEnabled(enabled);
 	}
 	
-	private void createTemporaryMasks() {
-		// Mask testing
+	private void createTemporaryMaskSegments() {
+		// Mask segment testing
 	}
 }
