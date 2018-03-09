@@ -60,7 +60,9 @@ public class Dosyadan_NEC_Oku extends JDialog {
 				String bizimVeriler = "";
 					
 					try {
-						butunDosya = new String(Files.readAllBytes(Paths.get("C:\\4nec2\\out\\yeni_dipol_04.out")));
+
+						butunDosya = new String(Files.readAllBytes(Paths.get("C:\\Users\\Suad\\Box Sync\\Akademik_Calisma\\01_Guncel\\nec_command_line\\sonuc.out")));
+
 						Scanner sc = new Scanner(butunDosya);
 						sc.useDelimiter("DEGREES[\r\n]+").next();						
 						sc.useDelimiter("\\s").next();
@@ -125,6 +127,20 @@ public class Dosyadan_NEC_Oku extends JDialog {
 			scroll.setSize(984, 476);
 			contentPanel.add(scroll);
 		}
+		
+		JButton btnOlustur = new JButton("olustur");
+		btnOlustur.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					Runtime.getRuntime().exec("C:\\Users\\Suad\\Box Sync\\Akademik_Calisma\\01_Guncel\\nec_command_line\\nec2++.exe -i kaynak.inp -o sonuc.out");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		btnOlustur.setBounds(31, 504, 89, 23);
+		contentPanel.add(btnOlustur);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));

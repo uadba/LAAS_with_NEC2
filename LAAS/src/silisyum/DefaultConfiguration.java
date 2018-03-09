@@ -7,7 +7,7 @@ public class DefaultConfiguration
 	public static double[] L = {0, 0, -0.1}; // initial values of amplitude, phase, and position minimum limits
 	public static double[] H = {1, 30, 0.1}; // initial values of amplitude, phase, and position maximum limits  
 	public static boolean amplitudeIsUsed = true;
-	public static boolean phaseIsUsed = true;
+	public static boolean phaseIsUsed = false;
 	public static boolean positionIsUsed = false;
 	public static double amplitudeValue = 1;
 	public static double phaseValue = 0;
