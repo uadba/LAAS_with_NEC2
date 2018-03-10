@@ -132,6 +132,9 @@ public class DifferentialEvolution {
 				}
 			}
 			
+			// Buraya dosyayý düzenleme ve
+			// Dosyayý kaydetme yeri gelecek inþallah
+			
 			double fitnessOfTrial = cost.function(Xtrial);
 			if(fitnessOfTrial < memberFitness[individual]) {
 				for (int d = 0; d < problemDimension; d++) {
