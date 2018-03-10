@@ -61,8 +61,8 @@ public class Dosyadan_NEC_Oku extends JDialog {
 					
 					try {
 
-						butunDosya = new String(Files.readAllBytes(Paths.get("C:\\Users\\Suad\\Box Sync\\Akademik_Calisma\\01_Guncel\\nec_command_line\\sonuc.out")));
-
+						butunDosya = new String(Files.readAllBytes(Paths.get("sonuc.out")));
+												
 						Scanner sc = new Scanner(butunDosya);
 						sc.useDelimiter("DEGREES[\r\n]+").next();						
 						sc.useDelimiter("\\s").next();
@@ -131,8 +131,10 @@ public class Dosyadan_NEC_Oku extends JDialog {
 		JButton btnOlustur = new JButton("olustur");
 		btnOlustur.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					Runtime.getRuntime().exec("C:\\Users\\Suad\\Box Sync\\Akademik_Calisma\\01_Guncel\\nec_command_line\\nec2++.exe -i kaynak.inp -o sonuc.out");
+				try {					
+					Runtime.getRuntime().exec(new String[]{"nec2++", "-i", "kaynak.inp", "-o", "sonuc.out"});
+					// new String[]{"php","/var/www/script.php", "-m", "2"}
+					// -i kaynak.inp -o sonuc.out
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
