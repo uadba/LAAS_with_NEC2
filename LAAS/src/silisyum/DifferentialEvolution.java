@@ -1,5 +1,9 @@
 package silisyum;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 public class DifferentialEvolution {
@@ -108,7 +112,7 @@ public class DifferentialEvolution {
 		}		
 	}
 	
-	public boolean iterate() {
+	public boolean iterate() throws FileNotFoundException, UnsupportedEncodingException {
 		
 		for (int individual = 0; individual < populationNumber; individual++) {
 			R1 = r.nextInt(populationNumber);
@@ -132,8 +136,42 @@ public class DifferentialEvolution {
 				}
 			}
 			
-			// Buraya dosyayý düzenleme ve
-			// Dosyayý kaydetme yeri gelecek inþallah
+			// .inp kaynak dosyasini düzenle
+			PrintWriter writer = new PrintWriter("kaynak.inp", "UTF-8");
+			writer.println("CM forw: 90, 0 ; back: 0, 0");
+			writer.println("CE");
+			writer.println("GW 1 7 0 0 0 0 0 0.058193 4.0591e-4");
+			writer.println("GW 2 7 0.0625 0 0 0.0625 0 0.058193 4.0591e-4");
+			writer.println("GW 3 7 0.125 0 0 0.125 0 0.058193 4.0591e-4");
+			writer.println("GW 4 7 0.1875 0 0 0.1875 0 0.058193 4.0591e-4");
+			writer.println("GW 5 7 0.25 0 0 0.25 0 0.058193 4.0591e-4");
+			writer.println("GW 6 7 0.3125 0 0 0.3125 0 0.058193 4.0591e-4");
+			writer.println("GW 7 7 0.375 0 0 0.375 0 0.058193 4.0591e-4");
+			writer.println("GW 8 7 0.4375 0 0 0.4375 0 0.058193 4.0591e-4");
+			writer.println("GE 0");
+			writer.println("EK");
+			writer.println("EX 0 1 4 0 " + Xtrial[0] + " 0");
+			writer.println("EX 0 2 4 0 " + Xtrial[1] + " 0");
+			writer.println("EX 0 3 4 0 " + Xtrial[2] + " 0");
+			writer.println("EX 0 4 4 0 " + Xtrial[3] + " 0");
+			writer.println("EX 0 5 4 0 " + Xtrial[4] + " 0");
+			writer.println("EX 0 6 4 0 " + Xtrial[5] + " 0");
+			writer.println("EX 0 7 4 0 " + Xtrial[6] + " 0");
+			writer.println("EX 0 8 4 0 " + Xtrial[7] + " 0");
+			writer.println("GN -1");
+			writer.println("FR 0 1 0 0 2400 0");
+			writer.println("RP 0 1 361 1000 90 0 0 1");
+			writer.close();
+			
+			// nec2++'i calistir
+			try {					
+				Runtime.getRuntime().exec(new String[]{"nec2++", "-i", "kaynak.inp", "-o", "sonuc.out"});
+				// new String[]{"php","/var/www/script.php", "-m", "2"}
+				// -i kaynak.inp -o sonuc.out
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			double fitnessOfTrial = cost.function(Xtrial);
 			if(fitnessOfTrial < memberFitness[individual]) {

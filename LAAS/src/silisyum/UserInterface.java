@@ -103,7 +103,7 @@ public class UserInterface extends JFrame implements ChartMouseListener{
 	private ChartPanel chartPanelPattern;
 	private ChartPanel chartPanelConvergence;
     private Crosshair xCrosshair;
-    private Crosshair yCrosshair;    
+    private Crosshair yCrosshair;
     
     private int numberOfElements = DefaultConfiguration.numberofElements;
     private int problemDimension;

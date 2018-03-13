@@ -82,11 +82,16 @@ public class Cost {
 //			} 
 //		}		
 		
+		dosyadanOku();
+		
 		double sll = -3;
 		for(int sayac=0; sayac<75; sayac++)
 		{			
 			if(dB[sayac] > sll)
+			{
 				result += (dB[sayac] - sll)*(dB[sayac] - sll);
+				System.out.println("sayac, dB ve SLL siniri: " + sayac + ", " + dB[sayac] + " " + sll);
+			}
 		}
 		
 		
@@ -120,7 +125,7 @@ public class Cost {
 					// Phi
 					sc.useDelimiter("\\S").next();
 					sc.useDelimiter("\\s");						
-					aci[sayac] += Double.parseDouble(sc.next());
+					aci[sayac] = Double.parseDouble(sc.next());
 					
 					// Vertical ve Horizontali atla
 					sc.useDelimiter("\\S").next();
@@ -131,7 +136,7 @@ public class Cost {
 					// Total dB
 					sc.useDelimiter("\\S").next();
 					sc.useDelimiter("\\s");						
-					dB[sayac] += Double.parseDouble(sc.next());
+					dB[sayac] = Double.parseDouble(sc.next());
 					
 					// Alt satira gec
 					sc.useDelimiter("[\r\n]+").next();
