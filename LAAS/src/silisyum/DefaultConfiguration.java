@@ -31,7 +31,7 @@ public class DefaultConfiguration
 	
 	// Algorithm Parameters
 	public static int populationNumber = 70;
-	public static int maximumIterationNumber = 1000;
+	public static int maximumIterationNumber = 10;
 	public static double F = 0.7;
 	public static double Cr = 0.95;	
  

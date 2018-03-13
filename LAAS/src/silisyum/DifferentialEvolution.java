@@ -34,7 +34,7 @@ public class DifferentialEvolution {
 	private boolean iterationState = true;
 	public double[] costValues;
 	
-	public DifferentialEvolution(int _numberofElements, int _populationNumber, int _maximumIterationNumber, double _F, double _Cr, double[] _L, double[] _H, AntennaArray _aA, AntennaArray _aAForP, Mask _mask, boolean _amplitudeIsUsed, boolean _phaseIsUsed, boolean _positionIsUsed) {
+	public DifferentialEvolution(int _numberofElements, int _populationNumber, int _maximumIterationNumber, double _F, double _Cr, double[] _L, double[] _H, AntennaArray _aA, AntennaArray _aAForP, Mask _mask, boolean _amplitudeIsUsed, boolean _phaseIsUsed, boolean _positionIsUsed) throws FileNotFoundException, UnsupportedEncodingException, InterruptedException {
 		
 		numberofElements = _numberofElements;
 		populationNumber = _populationNumber;
@@ -67,7 +67,7 @@ public class DifferentialEvolution {
 		Hs = new double[problemDimension];
 	}
 
-	private void initialize() {
+	private void initialize() throws FileNotFoundException, UnsupportedEncodingException, InterruptedException {
 		
 		int delta = 0;
 		if(amplitudeIsUsed) {
@@ -98,7 +98,47 @@ public class DifferentialEvolution {
 			for (int d = 0; d < problemDimension; d++) {
 				members[d][m] = Ls[d] + (Hs[d]-Ls[d])*r.nextDouble();
 				temp[d] = members[d][m];
-			}			
+			}
+			
+			// .inp kaynak dosyasini düzenle
+			PrintWriter writer = new PrintWriter("kaynak.inp", "UTF-8");
+			writer.println("CM forw: 90, 0 ; back: 0, 0");
+			writer.println("CE");
+			writer.println("GW 1 7 0 0 0 0 0 0.058193 4.0591e-4");
+			writer.println("GW 2 7 0.0625 0 0 0.0625 0 0.058193 4.0591e-4");
+			writer.println("GW 3 7 0.125 0 0 0.125 0 0.058193 4.0591e-4");
+			writer.println("GW 4 7 0.1875 0 0 0.1875 0 0.058193 4.0591e-4");
+			writer.println("GW 5 7 0.25 0 0 0.25 0 0.058193 4.0591e-4");
+			writer.println("GW 6 7 0.3125 0 0 0.3125 0 0.058193 4.0591e-4");
+			writer.println("GW 7 7 0.375 0 0 0.375 0 0.058193 4.0591e-4");
+			writer.println("GW 8 7 0.4375 0 0 0.4375 0 0.058193 4.0591e-4");
+			writer.println("GE 0");
+			writer.println("EK");
+
+			writer.println("EX 0 1 4 0 " + temp[0] + " 0");
+			writer.println("EX 0 2 4 0 " + temp[1] + " 0");
+			writer.println("EX 0 3 4 0 " + temp[2] + " 0");
+			writer.println("EX 0 4 4 0 " + temp[3] + " 0");
+			writer.println("EX 0 5 4 0 " + temp[4] + " 0");
+			writer.println("EX 0 6 4 0 " + temp[5] + " 0");
+			writer.println("EX 0 7 4 0 " + temp[6] + " 0");
+			writer.println("EX 0 8 4 0 " + temp[7] + " 0");
+			
+			writer.println("GN -1");
+			writer.println("FR 0 1 0 0 2400 0");
+			writer.println("RP 0 1 361 1000 90 0 0 1");
+			writer.close();
+			
+			// nec2++'i calistir
+			try {
+				
+				Process pro = Runtime.getRuntime().exec(new String[]{"nec2++", "-i", "kaynak.inp", "-o", "sonuc.out"});
+				pro.waitFor();
+				
+			} catch (IOException e) {
+				e.printStackTrace();				
+			}
+			
 			memberFitness[m] = cost.function(temp);
 			if(bestMember == -1) {
 				bestMember = m;
@@ -112,7 +152,7 @@ public class DifferentialEvolution {
 		}		
 	}
 	
-	public boolean iterate() throws FileNotFoundException, UnsupportedEncodingException {
+	public boolean iterate() throws FileNotFoundException, UnsupportedEncodingException, InterruptedException {
 		
 		for (int individual = 0; individual < populationNumber; individual++) {
 			R1 = r.nextInt(populationNumber);
@@ -158,19 +198,20 @@ public class DifferentialEvolution {
 			writer.println("EX 0 6 4 0 " + Xtrial[5] + " 0");
 			writer.println("EX 0 7 4 0 " + Xtrial[6] + " 0");
 			writer.println("EX 0 8 4 0 " + Xtrial[7] + " 0");
+			
 			writer.println("GN -1");
 			writer.println("FR 0 1 0 0 2400 0");
 			writer.println("RP 0 1 361 1000 90 0 0 1");
 			writer.close();
 			
 			// nec2++'i calistir
-			try {					
-				Runtime.getRuntime().exec(new String[]{"nec2++", "-i", "kaynak.inp", "-o", "sonuc.out"});
-				// new String[]{"php","/var/www/script.php", "-m", "2"}
-				// -i kaynak.inp -o sonuc.out
+			try {
+				
+				Process pro = Runtime.getRuntime().exec(new String[]{"nec2++", "-i", "kaynak.inp", "-o", "sonuc.out"});
+				pro.waitFor();
+				
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				e.printStackTrace();				
 			}
 			
 			double fitnessOfTrial = cost.function(Xtrial);

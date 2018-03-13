@@ -36,12 +36,15 @@ import javax.swing.SwingWorker;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -514,7 +517,15 @@ public class UserInterface extends JFrame implements ChartMouseListener{
 						if(algorithmExecuter.newStart) {
 							getParametersFromUserInterface();
 							calculateProblemDimension();
-							createMainObjects();
+							try {
+								createMainObjects();
+							} catch (FileNotFoundException | UnsupportedEncodingException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (InterruptedException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
 							seriler.clear();
 							maskOuter.clear();
 							maskInner.clear();
@@ -560,7 +571,12 @@ public class UserInterface extends JFrame implements ChartMouseListener{
 		btnShowCurrentResults.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tabbedPaneForSettings.setSelectedIndex(4);
-				showCurrentResults();	
+				try {
+					showCurrentResults();
+				} catch (FileNotFoundException | UnsupportedEncodingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}	
 			}
 		});
 		btnShowCurrentResults.setVisible(false);
@@ -580,7 +596,12 @@ public class UserInterface extends JFrame implements ChartMouseListener{
 				sendMessageToPane("<br><font color=#006400><b>Optimization process has been </b></font> <font color=red><b><i>terminated</i></b></font> <font color=#006400><b>by the user</b></font>.", false);
 				progressBar.setValue(0);
 				makeComponentsEnable(true);
-				showCurrentResults();
+				try {
+					showCurrentResults();
+				} catch (FileNotFoundException | UnsupportedEncodingException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 				setBestResultsToCurrentAntennaArray();
 			}
@@ -2305,7 +2326,7 @@ public class UserInterface extends JFrame implements ChartMouseListener{
 		if (positionIsUsed) problemDimension += numberOfElements;
 	}
 	
-	private void createMainObjects() {		
+	private void createMainObjects() throws FileNotFoundException, UnsupportedEncodingException, InterruptedException {		
 		differentialEvolution = new DifferentialEvolution(numberOfElements, populationNumber, maximumIterationNumber, F, Cr, L, H, antennaArray, antennaArrayForPresentation, mask, amplitudeIsUsed, phaseIsUsed, positionIsUsed);
 	}
 	
@@ -2539,7 +2560,12 @@ public class UserInterface extends JFrame implements ChartMouseListener{
 				newStart = true;
 				startPauseButton.setText("Start Optimization");
 				sendMessageToPane("<br><font color=#006400><b>Optimization process has been <i>completed</i> successfully!</b></font>", false);
-				showCurrentResults();
+				try {
+					showCurrentResults();
+				} catch (FileNotFoundException | UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				makeComponentsEnable(true);
 				tabbedPaneForSettings.setSelectedIndex(4);
 				
@@ -2567,7 +2593,36 @@ public class UserInterface extends JFrame implements ChartMouseListener{
 		}
 	}
 	
-	private void showCurrentResults() {
+	private void showCurrentResults() throws FileNotFoundException, UnsupportedEncodingException {
+		
+		// .inp kaynak dosyasini düzenle
+		PrintWriter writer = new PrintWriter("kaynak.inp", "UTF-8");
+		writer.println("CM forw: 90, 0 ; back: 0, 0");
+		writer.println("CE");
+		writer.println("GW 1 7 0 0 0 0 0 0.058193 4.0591e-4");
+		writer.println("GW 2 7 0.0625 0 0 0.0625 0 0.058193 4.0591e-4");
+		writer.println("GW 3 7 0.125 0 0 0.125 0 0.058193 4.0591e-4");
+		writer.println("GW 4 7 0.1875 0 0 0.1875 0 0.058193 4.0591e-4");
+		writer.println("GW 5 7 0.25 0 0 0.25 0 0.058193 4.0591e-4");
+		writer.println("GW 6 7 0.3125 0 0 0.3125 0 0.058193 4.0591e-4");
+		writer.println("GW 7 7 0.375 0 0 0.375 0 0.058193 4.0591e-4");
+		writer.println("GW 8 7 0.4375 0 0 0.4375 0 0.058193 4.0591e-4");
+		writer.println("GE 0");
+		writer.println("EK");
+		writer.println("EX 0 1 4 0 " + bestValues.valuesOfBestMember[0] + " 0");
+		writer.println("EX 0 2 4 0 " + bestValues.valuesOfBestMember[1] + " 0");
+		writer.println("EX 0 3 4 0 " + bestValues.valuesOfBestMember[2] + " 0");
+		writer.println("EX 0 4 4 0 " + bestValues.valuesOfBestMember[3] + " 0");
+		writer.println("EX 0 5 4 0 " + bestValues.valuesOfBestMember[4] + " 0");
+		writer.println("EX 0 6 4 0 " + bestValues.valuesOfBestMember[5] + " 0");
+		writer.println("EX 0 7 4 0 " + bestValues.valuesOfBestMember[6] + " 0");
+		writer.println("EX 0 8 4 0 " + bestValues.valuesOfBestMember[7] + " 0");
+		
+		writer.println("GN -1");
+		writer.println("FR 0 1 0 0 2400 0");
+		writer.println("RP 0 1 361 1000 90 0 0 1");
+		writer.close();
+		
 		String currentResults;
 		currentResults = "<hr><b>Results:</b><br>amplitudes = [<br>";
 		
