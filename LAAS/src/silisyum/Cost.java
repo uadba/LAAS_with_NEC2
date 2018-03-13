@@ -38,14 +38,21 @@ public class Cost {
 		
 		dosyadanOku();
 		
-		double sll = -10;
+		double sll = -9;
 		for(int sayac=0; sayac<73; sayac++)
 		{			
 			if(dB[sayac] > sll)
 			{
 				result += (dB[sayac] - sll)*(dB[sayac] - sll);
-//				System.out.println("sayac, dB ve SLL siniri, fark: " + sayac + ", " + dB[sayac] + " " + sll + " " + (dB[sayac] - sll));
-//				System.out.println("result " + result);
+			}
+			
+		}
+		
+		for(int sayac=107; sayac<181; sayac++)
+		{			
+			if(dB[sayac] > sll)
+			{
+				result += (dB[sayac] - sll)*(dB[sayac] - sll);
 			}
 			
 		}
