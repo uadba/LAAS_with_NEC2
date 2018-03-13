@@ -46,6 +46,11 @@ public class Cost {
 				result += (dB[sayac] - sll)*(dB[sayac] - sll);
 			}
 			
+			if(sayac == 28 && dB[sayac] > -25)
+			{
+				result += 10*(dB[sayac] - 25)*(dB[sayac] - 25);
+			}
+			
 		}
 		
 		for(int sayac=107; sayac<181; sayac++)
