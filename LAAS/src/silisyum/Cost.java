@@ -39,21 +39,21 @@ public class Cost {
 		dosyadanOku();
 		
 		double sll = -9;
-		for(int sayac=0; sayac<73; sayac++)
+		for(int sayac=0; sayac<76; sayac++)
 		{			
 			if(dB[sayac] > sll)
 			{
 				result += (dB[sayac] - sll)*(dB[sayac] - sll);
 			}
 			
-			if(sayac == 28 && dB[sayac] > -25)
-			{
-				result += 10*(dB[sayac] - 25)*(dB[sayac] - 25);
-			}
+//			if(sayac == 50 && dB[sayac] > -20)
+//			{
+//				result += 10*(dB[sayac] - 25)*(dB[sayac] - 25);
+//			}
 			
 		}
 		
-		for(int sayac=107; sayac<181; sayac++)
+		for(int sayac=105; sayac<181; sayac++)
 		{			
 			if(dB[sayac] > sll)
 			{

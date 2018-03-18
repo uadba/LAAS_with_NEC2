@@ -87,6 +87,7 @@ import java.awt.event.FocusEvent;
 import javax.swing.JSeparator;
 import javax.swing.JProgressBar;
 import java.awt.Component;
+
 import javax.swing.Box;
 import java.awt.Font;
 
@@ -2560,6 +2561,9 @@ public class UserInterface extends JFrame implements ChartMouseListener{
 				newStart = true;
 				startPauseButton.setText("Start Optimization");
 				sendMessageToPane("<br><font color=#006400><b>Optimization process has been <i>completed</i> successfully!</b></font>", false);
+
+				playSound();
+
 				try {
 					showCurrentResults();
 				} catch (FileNotFoundException | UnsupportedEncodingException e) {
@@ -2681,6 +2685,19 @@ public class UserInterface extends JFrame implements ChartMouseListener{
 		
 	}
 	
+	private static void playSound() {
+		
+		try {
+			
+			Runtime.getRuntime().exec(new String[]{"C:\\Program Files (x86)\\VideoLAN\\VLC\\vlc.exe", "C:\\Users\\Public\\Music\\Sample Music\\maid.mp3"});
+
+			
+		} catch (IOException e) {
+			e.printStackTrace();				
+		}
+
+	}
+
 	private void makeComponentsEnable(boolean enabled) {
 		btnSetElementNumber.setEnabled(enabled);
 		

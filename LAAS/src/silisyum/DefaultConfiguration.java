@@ -30,8 +30,8 @@ public class DefaultConfiguration
 	public static double[] weightForInner;
 	
 	// Algorithm Parameters
-	public static int populationNumber = 70;
-	public static int maximumIterationNumber = 10;
+	public static int populationNumber = 30;
+	public static int maximumIterationNumber = 20;
 	public static double F = 0.7;
 	public static double Cr = 0.95;	
  
